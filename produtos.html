@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos Recomendados | Beatriz Medeiros</title>
+  <meta name="description" content="Confira todos os produtos recomendados por Beatriz Medeiros">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Marcellus&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✦%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .products-page {
+      min-height: 100vh;
+      background: var(--color-cream);
+      padding-top: 100px;
+      padding-bottom: 60px;
+    }
+    .back-btn {
+      position: fixed;
+      top: 100px;
+      left: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: var(--color-white);
+      color: var(--color-rose-deep);
+      font-family: var(--font-body);
+      font-weight: 500;
+      box-shadow: var(--shadow-card);
+      transition: all var(--transition);
+      z-index: 100;
+    }
+    .back-btn:hover {
+      transform: translateX(-4px);
+      box-shadow: var(--shadow-soft);
+      background: var(--color-rose-deep);
+      color: var(--color-white);
+    }
+    .products-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .products-page-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .products-grid-full {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 32px;
+    }
+    @media (max-width: 768px) {
+      .back-btn {
+        left: 16px;
+        top: 90px;
+      }
+      .products-container {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="site-header">
+    <div class="header-inner container">
+      <a href="index.html" class="logo" aria-label="Página inicial de Beatriz Medeiros">
+        <span class="logo-mark">B</span>
+        <span class="logo-text">Beatriz <em>Medeiros</em></span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <ul>
+          <li><a href="index.html#home" class="nav-link">Início</a></li>
+          <li><a href="index.html#sobre" class="nav-link">Sobre</a></li>
+          <li><a href="index.html#historia" class="nav-link">Minha História</a></li>
+          <li><a href="index.html#blog" class="nav-link">Diário</a></li>
+          <li><a href="index.html#galeria" class="nav-link">Galeria</a></li>
+          <li><a href="index.html#favoritos" class="nav-link">Favoritos</a></li>
+          <li><a href="index.html#produtos" class="nav-link active">Recomendo</a></li>
+          <li><a href="index.html#contato" class="nav-link">Contato</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="products-page">
+    <a href="index.html#produtos" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 12H5M5 12L12 5M5 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Voltar
+    </a>
+    <div class="products-container">
+      <div class="products-page-title">
+        <p class="eyebrow">Seleção Especial</p>
+        <h2 class="section-title">Todos os Produtos</h2>
+        <p class="section-subtitle" style="max-width: 600px; margin: 0 auto;">Confira todos os itens que uso e recomendo no meu dia a dia</p>
+      </div>
+      <div class="products-grid-full" id="productsGridFull">
+        <!-- Product cards will be added here via JavaScript -->
+      </div>
+      <p class="disclosure" style="text-align: center; margin-top: 60px;">
+        ✦ Este espaço pode conter links de afiliados. Ao comprar por eles, você apoia este blog sem custo adicional para você.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    // Complete products data with more items!
+    const allProducts = [
+      {
+        id: 1,
+        name: "Diário Floral Premium",
+        description: "O caderno que uso para escrever todos os dias — capa macia, páginas em papel de alta gramatura.",
+        image: "images/mae.jpeg",
+        badge: "Favorito",
+        buttonText: "Ver",
+        link: "https://example.com/diario"
+      },
+      {
+        id: 2,
+        name: "Kit Aquarela Pastel",
+        description: "Perfeito para iniciar no journaling artístico, com cores delicadas e ótima pigmentação.",
+        image: "images/escola.jpeg",
+        badge: null,
+        buttonText: "Ver",
+        link: "https://example.com/aquarela"
+      },
+      {
+        id: 3,
+        name: "Coleção de Chás Artesanais",
+        description: "Minha seleção favorita para acompanhar as tardes de leitura e os momentos de pausa.",
+        image: "images/sala2.jpeg",
+        badge: "Novo",
+        buttonText: "Ver",
+        link: "https://example.com/cha"
+      },
+      {
+        id: 4,
+        name: "Vela Aromática Âmbar Dourado",
+        description: "O aroma que perfuma minhas noites de escrita. Queima lenta e cheiro envolvente.",
+        image: "images/pizza.jpeg",
+        badge: null,
+        buttonText: "Ver",
+        link: "https://example.com/vela"
+      },
+      {
+        id: 5,
+        name: "Marcador de Páginas de Madeira",
+        description: "Marcador personalizado com detalhes artesanais, perfeito para marcar suas páginas favoritas.",
+        image: "images/selfie1.jpeg",
+        badge: "Artesanal",
+        buttonText: "Ver",
+        link: "https://example.com/marcador"
+      },
+      {
+        id: 6,
+        name: "Caneta Tinteiro Vintage",
+        description: "Caneta elegante com escrita suave, ideal para adicionar um toque especial aos seus textos.",
+        image: "images/park.jpeg",
+        badge: null,
+        buttonText: "Ver",
+        link: "https://example.com/caneta"
+      },
+      {
+        id: 7,
+        name: "Organizador de Mesa Minimalista",
+        description: "Organizador funcional e bonito para manter seu espaço de trabalho sempre arrumado.",
+        image: "images/amiga.jpeg",
+        badge: "Bestseller",
+        buttonText: "Ver",
+        link: "https://example.com/organizador"
+      },
+      {
+        id: 8,
+        name: "Lâmpada de Mesa LED Warm",
+        description: "Iluminação suave e ajustável, perfeita para criar um ambiente aconchegante para leitura.",
+        image: "images/foto.jpeg",
+        badge: null,
+        buttonText: "Ver",
+        link: "https://example.com/lampada"
+      }
+    ];
+
+    // Intersection Observer for animations
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const delay = el.dataset.delay || 0;
+          setTimeout(() => el.classList.add('in-view'), delay);
+          revealObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    // Render all products
+    function renderAllProducts() {
+      const grid = document.getElementById('productsGridFull');
+      grid.innerHTML = '';
+
+      allProducts.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.animate = 'fade-up';
+
+        card.innerHTML = `
+          <div class="product-img">
+            <img src="${product.image}" alt="${product.name}">
+            ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+          </div>
+          <div class="product-content">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <a href="${product.link}" class="btn btn-small" target="_blank" rel="nofollow noopener">${product.buttonText}</a>
+          </div>
+        `;
+
+        grid.appendChild(card);
+
+        // Apply staggered delay
+        const parent = card.parentElement;
+        if (parent && parent.children.length > 1) {
+          const siblingIndex = Array.from(parent.children).indexOf(card);
+          card.dataset.delay = Math.min(siblingIndex * 80, 320);
+        }
+        revealObserver.observe(card);
+      });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', renderAllProducts);
+
+    // Header scroll effect
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+    navToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('is-open');
+      navToggle.classList.toggle('is-active', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mainNav.classList.contains('is-open')) {
+          mainNav.classList.remove('is-open');
+          navToggle.classList.remove('is-active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

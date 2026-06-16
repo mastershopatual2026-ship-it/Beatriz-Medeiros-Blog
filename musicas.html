@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Músicas Favoritas | Beatriz Medeiros</title>
+  <meta name="description" content="Ouça as músicas favoritas de Beatriz Medeiros">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Marcellus&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✦%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .music-page {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-blush) 100%);
+      padding-top: 100px;
+      padding-bottom: 60px;
+    }
+    .back-btn {
+      position: fixed;
+      top: 100px;
+      left: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: var(--color-white);
+      color: var(--color-rose-deep);
+      font-family: var(--font-body);
+      font-weight: 500;
+      box-shadow: var(--shadow-card);
+      transition: all var(--transition);
+      z-index: 100;
+    }
+    .back-btn:hover {
+      transform: translateX(-4px);
+      box-shadow: var(--shadow-soft);
+      background: var(--color-rose-deep);
+      color: var(--color-white);
+    }
+    .music-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .music-page-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 32px;
+    }
+    .music-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: all var(--transition);
+    }
+    .music-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-soft);
+    }
+    .music-cover {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+    .music-info {
+      padding: 20px;
+    }
+    .music-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--color-ink);
+      margin-bottom: 4px;
+    }
+    .music-artist {
+      font-size: 0.9rem;
+      color: var(--color-ink-soft);
+      margin-bottom: 16px;
+    }
+    .music-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .control-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-rose-deep);
+      color: var(--color-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .control-btn:hover {
+      transform: scale(1.1);
+      background: var(--color-rose);
+    }
+    .control-btn.small {
+      width: 32px;
+      height: 32px;
+      background: var(--color-gold-soft);
+    }
+    .control-btn.small:hover {
+      background: var(--color-gold);
+    }
+    .speed-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    .speed-btn {
+      padding: 6px 12px;
+      border: 1px solid var(--color-line);
+      border-radius: 999px;
+      background: var(--color-cream);
+      font-size: 0.8rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .speed-btn.active {
+      background: var(--color-rose-deep);
+      color: var(--color-white);
+      border-color: var(--color-rose-deep);
+    }
+    .speed-btn:hover {
+      border-color: var(--color-rose-deep);
+    }
+    .progress-container {
+      margin-top: 12px;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--color-line);
+      border-radius: 999px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-rose-deep), var(--color-gold));
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    .time-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--color-ink-soft);
+    }
+    @media (max-width: 768px) {
+      .back-btn {
+        left: 16px;
+        top: 90px;
+      }
+      .music-container {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="site-header">
+    <div class="header-inner container">
+      <a href="index.html" class="logo" aria-label="Página inicial de Beatriz Medeiros">
+        <span class="logo-mark">B</span>
+        <span class="logo-text">Beatriz <em>Medeiros</em></span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <ul>
+          <li><a href="index.html#home" class="nav-link">Início</a></li>
+          <li><a href="index.html#sobre" class="nav-link">Sobre</a></li>
+          <li><a href="index.html#historia" class="nav-link">Minha História</a></li>
+          <li><a href="index.html#blog" class="nav-link">Diário</a></li>
+          <li><a href="index.html#galeria" class="nav-link">Galeria</a></li>
+          <li><a href="index.html#favoritos" class="nav-link active">Favoritos</a></li>
+          <li><a href="index.html#produtos" class="nav-link">Recomendo</a></li>
+          <li><a href="index.html#contato" class="nav-link">Contato</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="music-page">
+    <a href="index.html#favoritos" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 12H5M5 12L12 5M5 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Voltar
+    </a>
+    <div class="music-container">
+      <div class="music-page-title">
+        <p class="eyebrow">Gostos Favoritos</p>
+        <h2 class="section-title">Minhas Músicas</h2>
+        <p class="section-subtitle" style="max-width: 600px; margin: 0 auto;">Ouça as músicas que fazem parte da minha vida e me inspiram todos os dias</p>
+      </div>
+      <div class="music-grid" id="musicGrid">
+        <!-- Music cards will be added here via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Music data - using real files from musics folder!
+    const musicData = [
+      {
+        id: 1,
+        title: "Your New Home",
+        artist: "Glitch",
+        cover: "images/tadc.jpeg",
+        src: "musics/your-new-home.mp3"
+      },
+      {
+        id: 2,
+        title: "The One is Running the Show",
+        artist: "Glitch",
+        cover: "images/tadc.jpeg",
+        src: "musics/the-one-is-running-the-show.mp3"
+      },
+      {
+        id: 3,
+        title: "Digital Circus Theme",
+        artist: "Glitch",
+        cover: "images/tadc.jpeg",
+        src: "musics/digital-circus-theme.mp3"
+      },
+      {
+        id: 4,
+        title: "Gameoverse",
+        artist: "Glitch",
+        cover: "images/gameoverse.png",
+        src: "musics/Gameoverse.mp3"
+      },
+      {
+        id: 5,
+        title: "Gameoverse (PT-BR)",
+        artist: "Master Productions",
+        cover: "images/gameoverse.png",
+        src: "musics/Gameoverse-pt-br.mp3"
+      },
+      {
+        id: 6,
+        title: "Nice Days",
+        artist: "Master Productions",
+        cover: "images/nice_days.jpeg",
+        src: "musics/Nice-days.mp3"
+      }
+    ];
+
+    // State for each music player
+    const players = {};
+
+    // Initialize music grid
+    function initMusicGrid() {
+      const grid = document.getElementById('musicGrid');
+      musicData.forEach(music => {
+        const card = document.createElement('div');
+        card.className = 'music-card';
+        card.innerHTML = `
+          <img src="${music.cover}" alt="${music.title}" class="music-cover">
+          <div class="music-info">
+            <h3 class="music-title">${music.title}</h3>
+            <p class="music-artist">${music.artist}</p>
+            <div class="music-controls">
+              <button class="control-btn small" data-action="prev" data-id="${music.id}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 6h2v12H6V6zm3.5 6l8.5 6V6l-8.5 6z" fill="currentColor"/>
+                </svg>
+              </button>
+              <button class="control-btn" data-action="play" data-id="${music.id}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5v14l11-7z" fill="currentColor"/>
+                </svg>
+              </button>
+              <button class="control-btn small" data-action="next" data-id="${music.id}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 18l8.5-6L6 6v12zm10.5-12h2v12h-2V6z" fill="currentColor"/>
+                </svg>
+              </button>
+              <div class="speed-control">
+                <button class="speed-btn active" data-speed="1" data-id="${music.id}">1x</button>
+                <button class="speed-btn" data-speed="1.5" data-id="${music.id}">1.5x</button>
+                <button class="speed-btn" data-speed="2" data-id="${music.id}">2x</button>
+              </div>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar" data-id="${music.id}">
+                <div class="progress-fill" data-id="${music.id}"></div>
+              </div>
+              <div class="time-info">
+                <span class="time-current" data-id="${music.id}">0:00</span>
+                <span class="time-total" data-id="${music.id}">0:00</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+
+        // Initialize audio player
+        const audio = new Audio(music.src);
+        audio.preload = 'metadata';
+        players[music.id] = {
+          audio: audio,
+          isPlaying: false,
+          speed: 1
+        };
+
+        // Load duration when metadata is available
+        audio.addEventListener('loadedmetadata', () => {
+          document.querySelector(`.time-total[data-id="${music.id}"]`).textContent = formatTime(audio.duration);
+        });
+
+        // Update progress
+        audio.addEventListener('timeupdate', () => {
+          const progress = (audio.currentTime / audio.duration) * 100;
+          document.querySelector(`.progress-fill[data-id="${music.id}"]`).style.width = `${progress}%`;
+          document.querySelector(`.time-current[data-id="${music.id}"]`).textContent = formatTime(audio.currentTime);
+        });
+
+        // Handle audio end
+        audio.addEventListener('ended', () => {
+          const playBtn = document.querySelector(`.control-btn[data-action="play"][data-id="${music.id}"]`);
+          playBtn.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 5v14l11-7z" fill="currentColor"/>
+            </svg>
+          `;
+          players[music.id].isPlaying = false;
+        });
+      });
+
+      // Add event listeners
+      document.querySelectorAll('.control-btn').forEach(btn => {
+        btn.addEventListener('click', handleControlClick);
+      });
+      document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.addEventListener('click', handleSpeedClick);
+      });
+      document.querySelectorAll('.progress-bar').forEach(bar => {
+        bar.addEventListener('click', handleProgressClick);
+      });
+    }
+
+    // Format time (seconds to MM:SS)
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Handle play/pause/prev/next
+    function handleControlClick(e) {
+      const action = e.currentTarget.dataset.action;
+      const id = parseInt(e.currentTarget.dataset.id);
+      const player = players[id];
+
+      if (action === 'play') {
+        // Pause all other players first
+        Object.keys(players).forEach(key => {
+          if (parseInt(key) !== id && players[key].isPlaying) {
+            players[key].audio.pause();
+            players[key].isPlaying = false;
+            const otherBtn = document.querySelector(`.control-btn[data-action="play"][data-id="${key}"]`);
+            otherBtn.innerHTML = `
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z" fill="currentColor"/>
+              </svg>
+            `;
+          }
+        });
+
+        if (player.isPlaying) {
+          player.audio.pause();
+          e.currentTarget.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 5v14l11-7z" fill="currentColor"/>
+            </svg>
+          `;
+        } else {
+          player.audio.play();
+          e.currentTarget.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>
+            </svg>
+          `;
+        }
+        player.isPlaying = !player.isPlaying;
+      } else if (action === 'prev') {
+        const currentIndex = musicData.findIndex(m => m.id === id);
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : musicData.length - 1;
+        const prevId = musicData[prevIndex].id;
+        // Pause current
+        player.audio.pause();
+        player.isPlaying = false;
+        e.currentTarget.closest('.music-card').querySelector(`.control-btn[data-action="play"]`).innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5v14l11-7z" fill="currentColor"/>
+          </svg>
+        `;
+        // Play previous
+        const prevBtn = document.querySelector(`.control-btn[data-action="play"][data-id="${prevId}"]`);
+        prevBtn.click();
+      } else if (action === 'next') {
+        const currentIndex = musicData.findIndex(m => m.id === id);
+        const nextIndex = currentIndex < musicData.length - 1 ? currentIndex + 1 : 0;
+        const nextId = musicData[nextIndex].id;
+        // Pause current
+        player.audio.pause();
+        player.isPlaying = false;
+        e.currentTarget.closest('.music-card').querySelector(`.control-btn[data-action="play"]`).innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5v14l11-7z" fill="currentColor"/>
+          </svg>
+        `;
+        // Play next
+        const nextBtn = document.querySelector(`.control-btn[data-action="play"][data-id="${nextId}"]`);
+        nextBtn.click();
+      }
+    }
+
+    // Handle speed control
+    function handleSpeedClick(e) {
+      const speed = parseFloat(e.currentTarget.dataset.speed);
+      const id = parseInt(e.currentTarget.dataset.id);
+      const player = players[id];
+
+      // Update buttons
+      document.querySelectorAll(`.speed-btn[data-id="${id}"]`).forEach(btn => {
+        btn.classList.remove('active');
+      });
+      e.currentTarget.classList.add('active');
+
+      // Update audio speed
+      player.audio.playbackRate = speed;
+      player.speed = speed;
+    }
+
+    // Handle progress bar click
+    function handleProgressClick(e) {
+      const id = parseInt(e.currentTarget.dataset.id);
+      const player = players[id];
+      const rect = e.currentTarget.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      player.audio.currentTime = percent * player.audio.duration;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', initMusicGrid);
+
+    // Header scroll effect
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+    navToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('is-open');
+      navToggle.classList.toggle('is-active', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mainNav.classList.contains('is-open')) {
+          mainNav.classList.remove('is-open');
+          navToggle.classList.remove('is-active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
